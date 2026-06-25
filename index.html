@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Repository | Universitas Airlangga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0A3966;
+            --primary-blue-hover: #062647;
+            --accent-gold: #D4A325;
+            --bg-light: #FAFAFA;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- NAVBAR --- */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-blue);
+        }
+
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-text {
+            color: var(--primary-blue);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-blue-hover);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 60px 0;
+            text-align: center;
+            background: radial-gradient(circle at 90% 10%, rgba(10, 57, 102, 0.03) 0%, transparent 40%);
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 24px;
+        }
+
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto 24px auto;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            font-size: 1rem;
+            font-family: inherit;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 15px -3px rgb(10 57 102 / 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .search-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 6px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tag.active, .tag:hover {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Repository Grid (Kiri) */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 576px) {
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .repo-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .card-badge {
+            align-self: flex-start;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .badge-skripsi { background-color: rgba(13, 148, 136, 0.1); color: #0d9488; }
+        .badge-tesis { background-color: rgba(79, 70, 229, 0.1); color: #4f46e5; }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-author {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .faculty-tag {
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+
+        /* Sidebar Kategori (Kanan) */
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .category-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .category-item:hover {
+            border-color: var(--primary-blue);
+            background-color: rgba(10, 57, 102, 0.01);
+            padding-left: 20px;
+        }
+
+        .category-item i {
+            color: var(--text-muted);
+        }
+
+        /* --- STATISTIK SECTION --- */
+        .stats-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            margin-bottom: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        .stats-item h3 {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stats-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-blue);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 0 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(2, 1fr);
+            gap: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .footer-logo h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .footer-links h4 {
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo-area">
+                <div class="logo-placeholder">A</div>
+                <div class="logo-text">
+                    <h1>REPOSITORI DIGITAL</h1>
+                    <p>Universitas Airlangga</p>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-text">Masuk</a>
+                <a href="#" class="btn btn-primary">Registrasi</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Telusuri Karya Ilmiah Airlangga</h2>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Cari Skripsi, Tesis, Disertasi, Jurnal...">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+            <div class="search-tags">
+                <span class="tag active">Semua</span>
+                <span class="tag">Skripsi</span>
+                <span class="tag">Tesis</span>
+                <span class="tag">Jurnal</span>
+                <span class="tag">Fakultas</span>
+                <span class="tag">Tahun</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="container main-layout">
+        
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Koleksi Terbaru</h2>
+            <div class="repo-grid">
+                
+                <div class="repo-card">
+                    <div>
+                        <span class="card-badge badge-skripsi">Skripsi</span>
+                        <h3 class="card-title">Analisis Kebijakan Kesehatan Masyarakat Berbasis Komunitas di Surabaya</h3>
+                        <p class="card-author">Oleh Authara Alifangga</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="faculty-tag">FKM</span>
+                        <span>25 Jan 2026</span>
+                    </div>
+                </div>
+
+                <div class="repo-card">
+                    <div>
+                        <span class="card-badge badge-tesis">Tesis</span>
+                        <h3 class="card-title">Penerapan Machine Learning untuk Deteksi Dini Kerusakan Komponen Mesin</h3>
+                        <p class="card-author">Oleh Arhan Praran</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="faculty-tag">FTMM</span>
+                        <span>18 Jan 2026</span>
+                    </div>
+                </div>
+
+                <div class="repo-card">
+                    <div>
+                        <span class="card-badge badge-skripsi">Skripsi</span>
+                        <h3 class="card-title">Optimasi Alokasi Logistik Bencana Menggunakan Algoritma Genetika</h3>
+                        <p class="card-author">Oleh Stawsir Reana</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="faculty-tag">FST</span>
+                        <span>16 Jan 2026</span>
+                    </div>
+                </div>
+
+                <div class="repo-card">
+                    <div>
+                        <span class="card-badge badge-tesis">Tesis</span>
+                        <h3 class="card-title">Strategi Komunikasi Pemasaran Digital pada Sektor Usaha Mikro Kuliner</h3>
+                        <p class="card-author">Oleh Dian Amalia</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="faculty-tag">FEB</span>
+                        <span>10 Jan 2026</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-layer-group"></i> Telusuri Kategori</h2>
+            <div class="category-list">
+                <a href="#" class="category-item">
+                    <span>Fakultas & Sekolah</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                <a href="#" class="category-item">
+                    <span>Tahun Terbit</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                <a href="#" class="category-item">
+                    <span>Subjek Populer</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                <a href="#" class="category-item">
+                    <span>Kontributor / Penulis</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <section class="container stats-section">
+        <h2 class="section-title" style="justify-content: center; margin-bottom: 30px;">Statistik Repositori</h2>
+        <div class="stats-grid">
+            <div class="stats-item">
+                <h3>125,780</h3>
+                <p>Total Dokumen</p>
+            </div>
+            <div class="stats-item">
+                <h3>68,432</h3>
+                <p>Skripsi</p>
+            </div>
+            <div class="stats-item">
+                <h3>31,511</h3>
+                <p>Tesis</p>
+            </div>
+            <div class="stats-item">
+                <h3>25,837</h3>
+                <p>Jurnal & Lainnya</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-logo">
+                <h2>UNIVERSITAS AIRLANGGA</h2>
+                <p>Excellence with Morality</p>
+                <p style="margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.6);">
+                    Jl. Universitas Airlangga, Gubeng, Kec. Mulyorejo, Surabaya, Jawa Timur 60115
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="#">Panduan Sitasi</a></li>
+                    <li><a href="#">Prosedur Serah Simpan</a></li>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Kontak</h4>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-envelope"></i> helpdesk@unair.ac.id</a></li>
+                    <li><a href="#"><i class="fa-solid fa-phone"></i> +62 31 5914042</a></li>
+                    <li><a href="#">Perpustakaan UNAIR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Universitas Airlangga Digital Repository. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
